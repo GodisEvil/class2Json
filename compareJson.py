@@ -90,7 +90,7 @@ def compareFile(file1, file2):
 
 if __name__ == '__main__':
     result = compareFile(sys.argv[1], sys.argv[2])
-    print(result)
+    #print(result)
     print('diff file {}, {}'.format(sys.argv[1], sys.argv[2]))
     for diffKey in result:
         print('{}:'.format(diffKey))
