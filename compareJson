@@ -64,7 +64,7 @@ def compare(oldValue, newValue, keyPath = '.'):
             for key in sameKeys:
                 tmpResult = compare(oldValue[key], newValue[key], keyPath + '.' + key)
                 if tmpResult:
-                    result[key].extend(tmpResult.get(key, {}))
+                    result[key].extend(tmpResult.get(key, []))
             if not result['add']:
                 result.pop('add')
             if not result['minus']:
