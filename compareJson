@@ -48,7 +48,7 @@ def compare(oldValue, newValue, keyPath = '.'):
                 if oldValue == newValue:
                     return {}
                 return {'diff': {keyPath: ('old length {}'.format(len(oldValue), 'new length: {}'.format(len(newValue))))}}
-            result = compare(oldValue[0], newValue[0], keyPath)
+            result = compare(oldValue[0], newValue[0], keyPath + '[0]')
             return result
         if isinstance(oldValue, dict):
             result =  {'add': [], 'minus': [], 'diff': []}
