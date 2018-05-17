@@ -47,7 +47,7 @@ def compare(oldValue, newValue, keyPath = '.'):
             if not oldValue or not newValue:
                 if oldValue == newValue:
                     return {}
-                return {'diff': {keyPath: ('old length {}'.format(len(oldValue), 'new length: {}'.format(len(newValue))))}}
+                return {'diff': [{keyPath: ('old length {}, new length: {}'.format(len(oldValue), len(newValue)))}]}
             result = compare(oldValue[0], newValue[0], keyPath + '[0]')
             return result
         if isinstance(oldValue, dict) and isinstance(newValue, dict):
@@ -90,7 +90,7 @@ def compareFile(file1, file2):
 
 if __name__ == '__main__':
     result = compareFile(sys.argv[1], sys.argv[2])
-    # print(result)
+    print(result)
     print('diff file {}, {}'.format(sys.argv[1], sys.argv[2]))
     for diffKey in result:
         print('{}:'.format(diffKey))
