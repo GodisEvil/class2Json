@@ -50,21 +50,21 @@ def compare(oldValue, newValue, keyPath = '.'):
                 return {'diff': {keyPath: ('old length {}'.format(len(oldValue), 'new length: {}'.format(len(newValue))))}}
             result = compare(oldValue[0], newValue[0], keyPath + '[0]')
             return result
-        if isinstance(oldValue, dict):
+        if isinstance(oldValue, dict) and isinstance(newValue, dict):
             result =  {'add': [], 'minus': [], 'diff': []}
-            sameKeys = set()
-            for key in oldValue:
-                if key not in newValue:
-                    result['minus'].append({keyPath + '.' + key: type(oldValue[key])})
-                else:
-                    sameKeys.add(key)
-            for key in newValue:
-                if key not in oldValue:
-                    result['add'].append({keyPath + '.' + key: type(newValue[key])})
+            oldKyes, newKeys = set(oldValue.keys()), set(newValue.keys())
+            sameKeys = oldKyes & newKeys
+            minusKeys = oldKyes - newKeys
+            addKeys = newKeys - oldKyes
+            for key in minusKeys:
+                result['minus'].append({keyPath + '.' + key: type(oldValue[key])})
+            for key in addKeys:
+                result['add'].append({keyPath + '.' + key: type(newValue[key])})
             for key in sameKeys:
                 tmpResult = compare(oldValue[key], newValue[key], keyPath + '.' + key)
                 if tmpResult:
-                    result[key].extend(tmpResult.get(key, []))
+                    for key in result:
+                        result[key].extend(tmpResult.get(key, []))
             if not result['add']:
                 result.pop('add')
             if not result['minus']:
